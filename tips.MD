@@ -1,5 +1,9 @@
 # PYTHON
 
+- 내장함수
+  - 파이썬 내장함수
+    - **https://wikidocs.net/32**
+
 - 입출력
   - 코딩테스트 입력 처리하는 방법
     - **https://itcrowd2016.tistory.com/81**
