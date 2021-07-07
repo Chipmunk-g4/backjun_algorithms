@@ -1,20 +1,38 @@
-# https://www.acmicpc.net/problem/15652
+# https://www.acmicpc.net/problem/14889
 
-def find_seq(remains, pre_seq, count):
-    if count == 1:
-        for r in remains:
-            if len(pre_seq) != 0:
-                if r < pre_seq[-1]:
-                    continue
-            print(' '.join(map(str,pre_seq + [r])))
+import sys
+
+t = int(input())
+board = []
+result = []
+
+for _ in range(t):
+    board.append(list(map(int,sys.stdin.readline().split())))
+
+for x in range(t):
+    for y in range(t):
+        tmp = board[x][y] + board[y][x]
+        board[x][y] = tmp
+        board[y][x] = tmp
+
+def calculator(team):
+    team = list(team)
+    result = 0
+    for x in range(len(team)-1):
+        for y in range(x+1,len(team)):
+            result+=board[team[x]][team[y]]//2
+    return result
+
+def team_maker(remains, team):
+    if len(remains) == len(team):
+        result.append(abs(calculator(team)-calculator(remains)))
     else:
         for r in remains:
-            if len(pre_seq) != 0:
-                if r < pre_seq[-1]:
-                    continue
-            find_seq(remains, pre_seq+[r],count-1)
+            remains.remove(r)
+            team.add(r)
+            team_maker(remains, team)
+            remains.add(r)
+            team.remove(r)
 
-n, m = map(int, input().split())
-
-start = [i+1 for i in range(n)]
-find_seq(start,[],m)
+team_maker(set([i for i in range(t)]), set([]))
+print(min(result))
