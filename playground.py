@@ -1,12 +1,15 @@
-# https://www.acmicpc.net/problem/11053
+# https://www.acmicpc.net/problem/13305
 
 n = int(input())
-arr = list(map(int,input().split()))
-l = [0]*n
+road = list(map(int,input().split()))
+cities = list(map(int,input().split()))
 
-for i in range(n):
-    l[i] = 1
-    for j in range(i):
-        if arr[j] < arr[i]:
-            l[i] = max(l[i], l[j]+1)
-print(max(l))
+price = [0 for _ in range(len(road))]
+
+now_price = 1000000001
+for i in range(len(cities)-1):
+    if cities[i] < now_price:
+        now_price = cities[i]
+    price[i] = now_price
+
+print(sum([price[i]*road[i] for i in range(len(road))]))
