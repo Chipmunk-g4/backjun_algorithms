@@ -1,15 +1,19 @@
-# https://www.acmicpc.net/problem/13305
+# https://www.acmicpc.net/problem/3036
+
+import math
 
 n = int(input())
-road = list(map(int,input().split()))
-cities = list(map(int,input().split()))
+gears = list(map(int,input().split()))
+ratio = [[0,0]]*(n-1)
 
-price = [0 for _ in range(len(road))]
+gcd1 = math.gcd(gears[0], gears[1])
+ratio[0] = [gears[0]//gcd1, gears[1]//gcd1]
 
-now_price = 1000000001
-for i in range(len(cities)-1):
-    if cities[i] < now_price:
-        now_price = cities[i]
-    price[i] = now_price
+for i in range(1, n-1):
+    a = ratio[i-1][0]*gears[i]
+    b = ratio[i-1][1]*gears[i+1]
+    gcd = math.gcd(a,b)
+    ratio[i] = [a//gcd,b//gcd]
 
-print(sum([price[i]*road[i] for i in range(len(road))]))
+for i in ratio:
+    print(f"{i[0]}/{i[1]}")
