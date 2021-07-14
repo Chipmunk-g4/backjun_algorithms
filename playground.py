@@ -1,19 +1,32 @@
-# https://www.acmicpc.net/problem/3036
+# https://www.acmicpc.net/problem/1874
 
-import math
+import sys
 
-n = int(input())
-gears = list(map(int,input().split()))
-ratio = [[0,0]]*(n-1)
+stack = []
+inv = 0
+result = []
+success = True
 
-gcd1 = math.gcd(gears[0], gears[1])
-ratio[0] = [gears[0]//gcd1, gears[1]//gcd1]
+t = int(input())
+for _ in range(t):
+    now = int(sys.stdin.readline())
+    if now > inv:
+        for i in range(inv, now):
+            inv+=1
+            stack.append(inv)
+            result.append('+')
+        stack.pop()
+        result.append('-')
+    else:
+        if stack[-1] == now:
+            stack.pop()
+            result.append('-')
+        else:
+            success = False
+            break
 
-for i in range(1, n-1):
-    a = ratio[i-1][0]*gears[i]
-    b = ratio[i-1][1]*gears[i+1]
-    gcd = math.gcd(a,b)
-    ratio[i] = [a//gcd,b//gcd]
-
-for i in ratio:
-    print(f"{i[0]}/{i[1]}")
+if success:
+    for i in result:
+        print(i)
+else:
+    print('NO')
