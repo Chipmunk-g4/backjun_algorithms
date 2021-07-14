@@ -1,32 +1,32 @@
-# https://www.acmicpc.net/problem/1874
+# https://www.acmicpc.net/problem/18258
 
 import sys
+from queue import Queue
 
-stack = []
-inv = 0
-result = []
-success = True
-
+q = Queue()
 t = int(input())
-for _ in range(t):
-    now = int(sys.stdin.readline())
-    if now > inv:
-        for i in range(inv, now):
-            inv+=1
-            stack.append(inv)
-            result.append('+')
-        stack.pop()
-        result.append('-')
-    else:
-        if stack[-1] == now:
-            stack.pop()
-            result.append('-')
-        else:
-            success = False
-            break
 
-if success:
-    for i in result:
-        print(i)
-else:
-    print('NO')
+for _ in range(t):
+    c = list(sys.stdin.readline().split())
+
+    if c[0] == 'push':
+        q.put(int(c[1]))
+    elif c[0] == 'pop':
+        if q.empty():
+            print(-1)
+        else:
+            print(q.get())
+    elif c[0] == 'size':
+        print(q.qsize())
+    elif c[0] == 'empty':
+        print(1 if q.empty() else 0)
+    elif c[0] == 'front':
+        if q.empty():
+            print(-1)
+        else:
+            print(q.queue[0])
+    elif c[0] == 'back':
+        if q.empty():
+            print(-1)
+        else:
+            print(q.queue[q.qsize()-1])
